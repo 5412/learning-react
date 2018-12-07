@@ -8,10 +8,22 @@ class ClickCounter extends Component {
         this.onClickPlusButton = this.onClickPlusButton.bind(this);
         this.state = {count: props.initValue};
     }
+
+    componentWillMount() {
+        console.log("componentWillMount" + this.props.caption)
+    }
+
+    componentDidMount() {
+        console.log("componentDidMount" + this.props.caption)
+    }
+
     componentWillReceiveProps(nextProps, nextContext) {
-        if(nextProps.initValue !== this.state.count){
-            this.setState({count: nextProps.initValue});
-        }
+        console.log('enter componentWillReceiveProps ' + this.props.caption  + this.state.count + nextProps.caption + nextProps.count)
+    }
+
+    shouldComponentUpdate(nextProps, nextState, nextContext) {
+        return (nextProps.caption !== this.props.caption) ||
+            (nextState.count !== this.state.count);
     }
 
     onClickMimiButton() {
