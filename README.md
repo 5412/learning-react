@@ -37,6 +37,21 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
+## Notice
+1. **UI = render(data)**
+1. `constructor(props) {
+   super(props);
+}`
+2. `this.setState({count: this.state.count - 1});` 修改并重新渲染
+3. `ClickCounter.propTypes = {
+        caption: PropTypes.string.isRequired,
+        initValue: PropTypes.number,
+    };`
+4. `ClickCounter.defaultProps = {
+        initValue:0
+    };`
+1.  不要修改传入的props值
+
 ## Learn More
 
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).

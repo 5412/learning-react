@@ -6,7 +6,12 @@ class ClickCounter extends Component {
         super(props);
         this.onClickMimiButton = this.onClickMimiButton.bind(this);
         this.onClickPlusButton = this.onClickPlusButton.bind(this);
-        this.state = {count:this.props.initValue || 0};
+        this.state = {count: props.initValue};
+    }
+    componentWillReceiveProps(nextProps, nextContext) {
+        if(nextProps.initValue !== this.state.count){
+            this.setState({count: nextProps.initValue});
+        }
     }
 
     onClickMimiButton() {
@@ -38,6 +43,10 @@ class ClickCounter extends Component {
 ClickCounter.propTypes = {
     caption: PropTypes.string.isRequired,
     initValue: PropTypes.number,
+};
+
+ClickCounter.defaultProps = {
+    initValue:0
 };
 
 
