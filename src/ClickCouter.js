@@ -1,13 +1,18 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class ClickCounter extends Component {
     constructor(props) {
         super(props);
-        this.onClickButton = this.onClickButton.bind(this);
-        this.state = {count:0};
+        this.onClickMimiButton = this.onClickMimiButton.bind(this);
+        this.onClickPlusButton = this.onClickPlusButton.bind(this);
+        this.state = {count:this.props.initValue || 0};
     }
 
-    onClickButton() {
+    onClickMimiButton() {
+        this.setState({count: this.state.count - 1});
+    }
+    onClickPlusButton() {
         this.setState({count: this.state.count + 1});
     }
 
@@ -17,14 +22,23 @@ class ClickCounter extends Component {
             margin:  '16px'
         };
 
+        const {caption} = this.props;
+
         return (
             <div style={counterStyle}>
-                <button onClick={this.onClickButton}>Click Me</button> <div>
+                <button onClick={this.onClickMimiButton}>-</button>
+                <button onClick={this.onClickPlusButton}>+</button>
+                <i>{caption}</i>
                 Click Count : {this.state.count}
-            </div>
             </div>
         );
     }
 }
+
+ClickCounter.propTypes = {
+    caption: PropTypes.string.isRequired,
+    initValue: PropTypes.number,
+};
+
 
 export default ClickCounter
