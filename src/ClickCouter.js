@@ -34,7 +34,7 @@ class ClickCounter extends Component {
     }
 
     render() {
-
+        console.log("enter" +  this.props.caption + "'s render");
         const counterStyle = {
             margin:  '16px'
         };

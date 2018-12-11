@@ -6,6 +6,7 @@ const style = {
 };
 class ControlPanel extends Component {
     render() {
+        console.log("enter ControlPanel's render");
         return (
             <div style={style}>
                 <ClickCounter caption="First"/>
