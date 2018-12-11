@@ -22,15 +22,37 @@ class ClickCounter extends Component {
     }
 
     shouldComponentUpdate(nextProps, nextState, nextContext) {
-        return (nextProps.caption !== this.props.caption) ||
-            (nextState.count !== this.state.count);
+        return true;
+        // return (nextProps.caption !== this.props.caption) ||
+        //     (nextState.count !== this.state.count);
+    }
+
+    componentWillUpdate(nextProps, nextState, nextContext) {
+        console.log("Enter componentWillUpdate")
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        console.log("Enter componentDidUpdate")
+    }
+
+    componentWillUnmount() {
+        console.log("Enter componentWillUnmount")
     }
 
     onClickMimiButton() {
-        this.setState({count: this.state.count - 1});
+        //this.setState({count: this.state.count - 1});
+        this.updateCount(false)
     }
     onClickPlusButton() {
-        this.setState({count: this.state.count + 1});
+        //this.setState({count: this.state.count + 1});
+        this.updateCount(true)
+
+    }
+    updateCount(isIncrement) {
+        const previousValue = this.state.count;
+        const newValue = isIncrement ? previousValue + 1 : previousValue - 1;
+        this.setState({count:newValue});
+        this.props.onUpdate(newValue, previousValue);
     }
 
     render() {
@@ -55,10 +77,12 @@ class ClickCounter extends Component {
 ClickCounter.propTypes = {
     caption: PropTypes.string.isRequired,
     initValue: PropTypes.number,
+    onUpdate: PropTypes.func,
 };
 
 ClickCounter.defaultProps = {
-    initValue:0
+    initValue:0,
+    onUpdate: f => f
 };
 
 
