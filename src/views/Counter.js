@@ -1,57 +1,62 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import CounterStore from "../stores/CounterStore";
+import React, {Component} from 'react'
+import store from '../Store'
 import * as Actions from '../Actions'
+import PropTypes from 'prop-types'
+
+const buttonStyle = {
+    margin: '10px'
+};
 
 class Counter extends Component {
     constructor(props) {
         super(props);
+        this.onIncrement = this.onIncrement.bind(this);
+        this.onDecrement = this.onDecrement.bind(this);
         this.onChange = this.onChange.bind(this);
-        this.onClickIncrementButton = this.onClickIncrementButton.bind(this);
-        this.onClickDecrementButton = this.onClickDecrementButton.bind(this);
+        this.getOwnState = this.getOwnState.bind(this);
+        this.state = this.getOwnState();
+    }
 
-        this.state = {count: CounterStore.getCounterValues()[props.caption]};
+    getOwnState() {
+        return {
+            value: store.getState()[this.props.caption]
+        };
+    }
+
+    onIncrement() {
+        store.dispatch(Actions.increment(this.props.caption));
+    }
+
+    onDecrement() {
+        store.dispatch(Actions.decrement(this.props.caption));
     }
 
     onChange() {
-        const newCount = CounterStore.getCounterValues()[this.props.caption]
-        this.setState({count:newCount})
+        this.setState(this.getOwnState());
     }
 
-    shouldComponentUpdate(nextProps, nextState, nextContext) {
-        return nextProps.caption !== this.props.caption || nextState.count !== this.state.count;
+    shouldComponentUpdate(nextProps, nextState) {
+        return (nextProps.caption !== this.props.caption) ||
+            (nextState.value !== this.state.value);
     }
 
     componentDidMount() {
-        CounterStore.addChangeListener(this.onChange)
+        store.subscribe(this.onChange);
     }
 
     componentWillUnmount() {
-        CounterStore.removeChangeListener(this.onChange)
+        store.unsubscribe(this.onChange);
     }
-
-    onClickIncrementButton() {
-        Actions.increment(this.props.caption)
-    }
-
-    onClickDecrementButton() {
-        Actions.decrement(this.props.caption)
-    }
-
 
     render() {
-        const counterStyle = {
-            margin:  '16px'
-        };
-
+        const value = this.state.value;
         const {caption} = this.props;
 
         return (
-            <div style={counterStyle}>
-                <button onClick={this.onClickIncrementButton}>+</button>
-                <button onClick={this.onClickDecrementButton}>-</button>
-                <i>{caption}</i>
-                Count : {this.state.count}
+            <div>
+                <button style={buttonStyle} onClick={this.onIncrement}>+</button>
+                <button style={buttonStyle} onClick={this.onDecrement}>-</button>
+                <span>{caption} count: {value}</span>
             </div>
         );
     }
@@ -61,4 +66,4 @@ Counter.propTypes = {
     caption: PropTypes.string.isRequired
 };
 
-export default Counter
+export default Counter;

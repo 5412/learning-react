@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import ControlPanel from './views/ControlPanel';
 import './index.css';
+import ControlPanel from './views/ControlPanel'
 
 ReactDOM.render(
-    <ControlPanel />,
+    <ControlPanel/>,
     document.getElementById('root')
 );
