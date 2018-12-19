@@ -1,13 +1,11 @@
-import {createStore} from 'redux'
+import {createStore, combineReducers} from 'redux';
 
-import reducer from './Reducer.js'
+import {reducer as todoReducer} from './todos'
+import {reducer as filterReducer} from './filter'
 
-const initValues = {
-    'First': 0,
-    'Second': 10,
-    'Third': 20,
-};
+const reducer = combineReducers({
+    todos: todoReducer,
+    filter: filterReducer
+});
 
-const store = createStore(reducer, initValues);
-
-export default store
+export default createStore(reducer)
